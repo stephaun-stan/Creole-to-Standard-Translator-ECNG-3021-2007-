@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fcfafa;
+}
+
+.container {  /*this sets the orientation of the two boxes*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-box, .output-box {
+
+    font-family: "Helvetica", sans-serif;
+    width: 600px; 
+    height: 200px;
+    padding: 20px;
+    border: 1px solid #ffffff;
+    border-radius: 10px; /*chamfer*/
+    resize: none;
+    outline: none;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.run-button {
+
+    font-family: "Helvetica", sans-serif;
+    width: 100px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #09815d;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.title{
+    font-family: "Courier New", sans-serif;
+    font-size: 50px;
+}
+
+.run-button:hover {
+    background-color: #049c5d;
+}
