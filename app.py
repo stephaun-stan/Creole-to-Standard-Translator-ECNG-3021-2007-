@@ -4,7 +4,8 @@ from flask_cors import CORS
 
 #creates Flask api
 app = Flask(__name__)
-CORS(app, origins="*")
+CORS(app, resources={r"/translate": {"origins": "*"}})  # Adds CORS middle ware for flask app
+
 
 # Loads the trained BART model and tokenizer
 model = BartForConditionalGeneration.from_pretrained("imchris/BART-creole-to-english")
