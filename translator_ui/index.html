@@ -4,15 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creole to English Translator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <a class="title">Temporary Name Holder</a>
+        <a class="title">Trinidad and Tobago Creole To Standard English Translator</a>
         <textarea id="inputText" class="input-box" placeholder="Enter Creole text here..."></textarea>
         <button class="run-button" id="translateButton">Translate</button>
         <textarea id="outputText" class="output-box" placeholder="Translated English text will appear here..."></textarea>
     </div>
-    <script src="script.js"></script>
+    <script>
+        // JavaScript code to make a request to the Flask API
+        document.getElementById('translateButton').addEventListener('click', function () {
+            // Get the input text
+            var creoleText = document.getElementById('inputText').value;
+
+            // Make a POST request to the Flask API
+            fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: creoleText,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the output textarea with the translated text
+                document.getElementById('outputText').value = data.translatedText;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error if needed
+            });
+        });
+    </script>
 </body>
 </html>
