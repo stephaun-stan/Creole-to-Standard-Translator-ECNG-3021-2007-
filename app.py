@@ -4,7 +4,8 @@ from flask_cors import CORS
 
 #creates Flask api
 app = Flask(__name__)
-CORS(app, origins="*")
+CORS(app, resources={r"/translate": {"origins": "*"}})  # Adds CORS middle ware for flask app
+
 
 # Loads the trained BART model and tokenizer
 model = BartForConditionalGeneration.from_pretrained("imchris/BART-creole-to-english")
@@ -22,6 +23,10 @@ def translate_creole(creole_text, max_length=128):
         # Ensures that the input is not empty
         if input_ids.numel() == 0:
             return "Input sentence is empty or too long."
+        
+        if len(creole_text) > (max_length+20):
+            raise ValueError(f"Input sentence length ({len(creole_text)}) exceeds the maximum allowed length.")
+
 
         # Generate translation
         output_ids = model.generate(input_ids, max_length=max_length, num_beams=5, length_penalty=0.6, no_repeat_ngram_size=2)
@@ -47,7 +52,11 @@ def translate():
         translated_text = translate_creole(input_text)
         
         # Return the translated text as JSON
-        return jsonify({'translatedText': translated_text})
+        return jsonify({'translatedText': translated_text, 'message': 'Model loaded successfully'})
+    
+    except ValueError as ve:
+        return jsonify({'error': str(ve), 'message': 'Input sentence length exceeds max_length'})
+
     
     # Return an error message if there's an exception
     except Exception as e:
